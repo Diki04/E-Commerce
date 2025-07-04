@@ -4,20 +4,34 @@ import { useState, useEffect } from "react";
 import customApi from "../api";
 import { FaPlus } from "react-icons/fa6";
 import { generateSelectAmount, priceFormat } from "../utils";
+import { useDispatch } from "react-redux";
+import { addItem } from "../features/cartSlice";
 
 const DetailProduct = () => {
   let { id } = useParams();
   const [product, setProduct] = useState("");
   const [amount, setAmount] = useState(1);
 
+
+  // Store
+  const dispatch = useDispatch();
+
   const handleAmount = (e) => {
     setAmount(parseInt(e.target.value));
   }
   
-
+  const productCart = {
+  cartId: product._id + product.name,
+  productId: product._id,
+  image: product.image,
+  name: product.name,
+  price: product.price,
+  stock: product.stock,
+  amount: amount,
+  }
 
   const handleCart = () => {
-    console.log(amount);
+    dispatch(addItem({product : productCart}));
     
   }
 
