@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const defaultValue = {
-  carItems: [],
+  cartItems: [],
   numItemsInCart: 0,
   cartTotal: 0,
   
@@ -12,18 +12,18 @@ const getCartFromLocalStorage = () => {
   return JSON.parse(localStorage.getItem("cart")) || defaultValue
 }
 
-const carSlice = createSlice({
+const cartSlice = createSlice({
   name: 'cart',
   initialState: getCartFromLocalStorage(),
   reducers: {
     addItem:(state, action) => {
       const {product} = action.payload
 
-      const item = state.carItems.find((i) => i.cartId === product.cartId)
+      const item = state.cartItems.find((i) => i.cartId === product.cartId)
       if(item){
         item.amount += product.amount
       }else{
-        state.carItems.push(product)
+        state.cartItems.push(product)
       }
       state.numItemsInCart += product.amount
       state.cartTotal += product.price * product.amount
@@ -36,5 +36,5 @@ const carSlice = createSlice({
   }
 })
 
-export const { addItem } = carSlice.actions;
-export default carSlice.reducer;
+export const { addItem } = cartSlice.actions;
+export default cartSlice.reducer;
